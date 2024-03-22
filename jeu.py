@@ -20,10 +20,10 @@ class Jeu:
         self.pac_man = Pac_man(self.L)
         
         # création des fantomes
-        self.clyde = Clyde(self.L, speed=10)
-        self.blinky = Blinky(self.L, speed=10)
-        self.pinky = Pinky(self.L, self.G, speed=10)
-        self.inky = Inky(self.L, self.G, speed=10)
+        self.clyde = Clyde(self.L, speed=30)
+        self.blinky = Blinky(self.L, speed=30)
+        self.pinky = Pinky(self.L, self.G, speed=30)
+        self.inky = Inky(self.L, self.G, speed=30)
 
         self.powertime = False
         self.game_started = False
@@ -37,10 +37,13 @@ class Jeu:
             self.pac_man.deplacer()
             
             # deplacement des fantomes
-            self.clyde.deplacer()
+
+            
+
+            self.clyde.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
             self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
             self.pinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
-            self.inky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+            self.inky.deplacer(self.pac_man.get_x(), self.pac_man.get_y()) 
 
         # Bouton de démarrage du jeu
         if pyxel.btnp(pyxel.KEY_SPACE):
