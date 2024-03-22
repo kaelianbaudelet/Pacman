@@ -100,11 +100,12 @@ class Pinky(Ghost):
         self.speed = speed
 
     def deplacer(self, x, y):
-        chemin = self.graph.parcours_profondeur((self.ghost.get_x(), self.ghost.get_y()), (x, y))
+        if pyxel.frame_count % self.speed == 0:
+            chemin = self.graph.parcours_profondeur((self.ghost.get_x(), self.ghost.get_y()), (x, y))
 
-        # Suivre le chemin
-        y, x = chemin[1]
-        self.ghost.set_coordinates(x, y)
+            # Suivre le chemin
+            y, x = chemin[1]
+            self.ghost.set_coordinates(x, y)
 
     def affiche(self):
         self.ghost.affiche(14)
