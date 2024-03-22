@@ -66,7 +66,7 @@ class Blinky(Ghost):
            
             
             # change de direction en fonction du chemin
-            self.ghost.deplacer()
+            self.ghost.deplacer_vers()
 
     def affiche(self):
         self.ghost.affiche(8)
