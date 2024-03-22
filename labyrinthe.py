@@ -14,6 +14,8 @@ class Lab:
                 if l[i][j] != 1:
                     self.adjacence[l[i][j]] = []
                     
+    def get_grille(self):
+        return self.grille
         
     def affiche(self):
         for i in range(len(self.grille)):

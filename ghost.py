@@ -25,15 +25,6 @@ class Ghost:
             self.x = 0
         elif self.x < 0:
             self.x = 26
-            
-    def deplacer_vers(self, x, y):
-        # Calculer le chemin le plus court vers Pac-Man
-        grille = self.labyrinthe.grille
-        chemin = get_chemin(grille, (self.y, self.x), (y, x))
-
-        # Suivre le chemin
-        if chemin:
-            self.y, self.x = chemin[1]
 
     def get_direction(self):
         return self.direction
@@ -62,13 +53,17 @@ class Blinky(Ghost):
         self.speed = speed
 
     def deplacer(self, x, y):
-        print(self.ghost.get_x(), self.ghost.get_y())
-
         if pyxel.frame_count % self.speed == 0:
            
-            
             # change de direction en fonction du chemin
-            self.ghost.deplacer_vers(x, y)
+            # Calculer le chemin le plus court vers Pac-Man
+            grille = self.labyrinthe.get_grille()
+            chemin = get_chemin(grille, (self.ghost.get_y(), self.ghost.get_x()), (y, x))
+
+            # Suivre le chemin
+            if chemin:
+                y, x = chemin[1]
+                self.ghost.set_coordinates(x, y)
 
     def affiche(self):
         self.ghost.affiche(8)
