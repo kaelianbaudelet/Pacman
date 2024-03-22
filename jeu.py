@@ -22,7 +22,7 @@ class Jeu:
         # création des fantomes
         self.clyde = Clyde(self.L)
         self.blinky = Blinky(self.L)
-        self.pinky = Pinky(self.L)
+        self.pinky = Pinky(self.L, self.G)
         self.inky = Inky(self.L, self.G)
         
         # Lancement du jeu

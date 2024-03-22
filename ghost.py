@@ -78,7 +78,6 @@ class Inky(Ghost):
     def deplacer(self, x, y):
         # change de direction en fonction du chemin
         chemin = self.graph.parcours_largeur((self.ghost.get_x(), self.ghost.get_y()), (x, y))
-        print(chemin)
 
         # Suivre le chemin
         y, x = chemin[1]
@@ -88,14 +87,17 @@ class Inky(Ghost):
         self.ghost.affiche(12)
         
 class Pinky(Ghost):
-    def __init__(self, labyrinthe):
+    def __init__(self, labyrinthe, graph):
         self.labyrinthe = labyrinthe
         self.ghost = Ghost(15, 13, labyrinthe)
-        self.parcours = []
+        self.graph = graph
 
     def deplacer(self, x, y):
-        # change de direction en fonction du chemin
-        self.ghost.deplacer_vers(x, y)
+        chemin = self.graph.parcours_profondeur((self.ghost.get_x(), self.ghost.get_y()), (x, y))
+
+        # Suivre le chemin
+        y, x = chemin[1]
+        self.ghost.set_coordinates(x, y)
 
     def affiche(self):
         self.ghost.affiche(14)

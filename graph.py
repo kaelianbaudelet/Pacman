@@ -35,7 +35,41 @@ class Graph:
         # on explore tout le graphe jusqu'a tomber sur le bon sommet
         while u != som2 and len(file)>0:
             u = file.popleft()
-            print(u)
+            for v in self.graph[u]:
+                if marques[v] == False:
+                     marques[v] = u
+                     file.append(v)    
+            parcours.append(u)
+
+        # on remonte le chemin parcouru en utilisant les marques
+        chemin = []
+        while u != som1:
+            chemin.append(u)
+            u = marques[u]
+        chemin.append(u)
+            
+        # on retourne la liste et la renvoie
+        chemin.reverse()
+        return chemin
+    
+    def parcours_profondeur(self, som1, som2):
+        """ renvoie le chemin par le parcours en profondeur du sommet
+        som1 jusqu'au sommet som2 """
+        som1 = (som1[1], som1[0])
+        som2 = (som2[1], som2[0])
+        
+        file = deque()
+        # False s'il n'y a pas de marque sinon le sommet d'ou elle vient
+        marques = {v : False for v in self.graph.keys()}
+        parcours = []
+        
+        marques[som1] = som1 # le sommet vient de lui même
+        file.append(som1)
+        
+        u = som1
+        # on explore tout le graphe jusqu'a tomber sur le bon sommet
+        while u != som2 and len(file)>0:
+            u = file.pop()
             for v in self.graph[u]:
                 if marques[v] == False:
                      marques[v] = u
