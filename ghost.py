@@ -8,6 +8,7 @@ class Ghost:
         self.x = x
         self.y = y
         self.labyrinthe = labyrinthe
+        self.death = False
         self.direction = direction
           
     def deplacer(self):
