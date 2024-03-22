@@ -62,11 +62,13 @@ class Blinky(Ghost):
         self.speed = speed
 
     def deplacer(self, x, y):
+        print(self.ghost.get_x(), self.ghost.get_y())
+
         if pyxel.frame_count % self.speed == 0:
            
             
             # change de direction en fonction du chemin
-            self.ghost.deplacer_vers()
+            self.ghost.deplacer_vers(x, y)
 
     def affiche(self):
         self.ghost.affiche(8)
