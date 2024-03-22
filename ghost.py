@@ -30,17 +30,6 @@ class Ghost:
         elif self.x < 0:
             self.x = 26
 
-        
-            
-    def deplacer_vers(self, x, y):
-        # Calculer le chemin le plus court vers Pac-Man
-        grille = self.labyrinthe.grille
-        chemin = get_chemin(grille, (self.y, self.x), (y, x))
-
-        # Suivre le chemin
-        if chemin:
-            self.y, self.x = chemin[1]
-
     def get_direction(self):
         return self.direction
     
