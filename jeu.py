@@ -10,6 +10,7 @@ class Jeu:
     def __init__(self, laby):
         
         pyxel.init(224, 248, title="Pac-man", fps = 60)
+        pyxel.load("res.pyxres")
         
         # création du labyrinthe
         self.L = Lab(laby)
@@ -51,7 +52,7 @@ class Jeu:
         if self.game_started:
             # affichage du labyrinthe
             self.L.affiche()
-            
+
             # affichage de pacman
             self.pac_man.afficher()
             
