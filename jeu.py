@@ -9,7 +9,7 @@ class Jeu:
     
     def __init__(self, laby):
         
-        pyxel.init(224, 248, title="Pac-man", fps = 7)
+        pyxel.init(224, 248, title="Pac-man", fps = 60)
         
         # création du labyrinthe
         self.L = Lab(laby)
@@ -20,38 +20,50 @@ class Jeu:
         self.pac_man = Pac_man(self.L)
         
         # création des fantomes
-        self.clyde = Clyde(self.L)
-        self.blinky = Blinky(self.L)
-        self.pinky = Pinky(self.L, self.G)
-        self.inky = Inky(self.L, self.G)
+        self.clyde = Clyde(self.L, speed=10)
+        self.blinky = Blinky(self.L, speed=10)
+        self.pinky = Pinky(self.L, self.G, speed=10)
+        self.inky = Inky(self.L, self.G, speed=10)
+
+        self.powertime = False
+        self.game_started = False
         
         # Lancement du jeu
         pyxel.run(self.update, self.draw)
         
     def update(self):
-        # deplacement de pac-man
-        self.pac_man.deplacer()
-        
-        # deplacement des fantomes
-        self.clyde.deplacer()
-        self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
-        self.pinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
-        self.inky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+        if self.game_started:
+            # deplacement de pac-man
+            self.pac_man.deplacer()
+            
+            # deplacement des fantomes
+            self.clyde.deplacer()
+            self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+            self.pinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+            self.inky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+
+        # Bouton de démarrage du jeu
+        if pyxel.btnp(pyxel.KEY_SPACE):
+            self.game_started = True
                 
     def draw(self):
         pyxel.cls(0)
-        
-        # affichage du labyrinthe
-        self.L.affiche()
-        
-        # affichage de pacman
-        self.pac_man.afficher()
-        
-        # affihage de pac-man
-        self.clyde.affiche()
-        self.blinky.affiche()
-        self.inky.affiche()
-        self.pinky.affiche()
+        if self.game_started:
+            # affichage du labyrinthe
+            self.L.affiche()
+            
+            # affichage de pacman
+            self.pac_man.afficher()
+            
+            # affihage de pac-man
+            self.clyde.affiche()
+            self.blinky.affiche()
+            self.inky.affiche()
+            self.pinky.affiche()
+        else:
+            # Bouton de démarrage du jeu
+            pyxel.rect(80, 120, 64, 16, 7)
+            pyxel.text(90, 125, "START", 0)
               
 laby = [
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],

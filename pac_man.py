@@ -11,6 +11,7 @@ class Pac_man:
         self.direction = 0  # 0: droite, 1: haut, 2: gauche, 3: bas
         # Prochaine direction si le joueur appuie sur une touche directionnelle pendant le déplacement
         self.next_direction = 0
+        self.speed = 10
 
     def deplacer(self):
         if pyxel.btn(pyxel.KEY_RIGHT) and not self.x == 27 and not self.labyrinthe.collision(self.x + 1, self.y):
@@ -21,27 +22,28 @@ class Pac_man:
             self.direction = 2
         elif pyxel.btn(pyxel.KEY_DOWN) and not self.labyrinthe.collision(self.x, self.y + 1):
             self.direction = 3
+        if pyxel.frame_count % self.speed == 0:
 
-        # Déplacement automatique tant que la direction ne change pas
-        if self.direction == 0 and not self.x == 27 and not self.labyrinthe.collision(self.x + 1, self.y):
-            self.x += 1
+            # Déplacement automatique tant que la direction ne change pas
+            if self.direction == 0 and not self.x == 27 and not self.labyrinthe.collision(self.x + 1, self.y):
+                self.x += 1
 
-        elif self.direction == 1 and not self.labyrinthe.collision(self.x, self.y - 1):
-            self.y -= 1
+            elif self.direction == 1 and not self.labyrinthe.collision(self.x, self.y - 1):
+                self.y -= 1
 
-        elif self.direction == 2 and not self.labyrinthe.collision(self.x - 1, self.y):
-            self.x -= 1
+            elif self.direction == 2 and not self.labyrinthe.collision(self.x - 1, self.y):
+                self.x -= 1
 
-        elif self.direction == 3 and not self.labyrinthe.collision(self.x, self.y + 1):
-            self.y += 1
-            
-        if self.x > 26:
-            self.x = 0
-        elif self.x < 0:
-            self.x = 26
+            elif self.direction == 3 and not self.labyrinthe.collision(self.x, self.y + 1):
+                self.y += 1
+                
+            if self.x > 26:
+                self.x = 0
+            elif self.x < 0:
+                self.x = 26
 
-        self.labyrinthe.detection_gomme(self.x, self.y)
-        self.labyrinthe.detection_powergum(self.x, self.y)
+            self.labyrinthe.detection_gomme(self.x, self.y)
+            self.labyrinthe.detection_powergum(self.x, self.y)
 
     def afficher(self):
         pyxel.rect(self.x * 8, self.y * 8, 8, 8, 10)
