@@ -81,9 +81,8 @@ class Inky(Ghost):
         print(chemin)
 
         # Suivre le chemin
-        if chemin != []:
-            y, x = chemin[1]
-            self.ghost.set_coordinates(x, y)
+        y, x = chemin[1]
+        self.ghost.set_coordinates(x, y)
 
     def affiche(self):
         self.ghost.affiche(12)

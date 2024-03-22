@@ -20,12 +20,13 @@ class Graph:
     def parcours_largeur(self, som1, som2):
         """ renvoie le chemin par le parcours en largeur du sommet
         som1 jusqu'au sommet som2 """
+        som1 = (som1[1], som1[0])
+        som2 = (som2[1], som2[0])
         
         file = deque()
         # False s'il n'y a pas de marque sinon le sommet d'ou elle vient
         marques = {v : False for v in self.graph.keys()}
         parcours = []
-        print(som1, som2)
         
         marques[som1] = som1 # le sommet vient de lui même
         file.append(som1)
@@ -34,12 +35,13 @@ class Graph:
         # on explore tout le graphe jusqu'a tomber sur le bon sommet
         while u != som2 and len(file)>0:
             u = file.popleft()
+            print(u)
             for v in self.graph[u]:
                 if marques[v] == False:
                      marques[v] = u
                      file.append(v)    
             parcours.append(u)
-            
+
         # on remonte le chemin parcouru en utilisant les marques
         chemin = []
         while u != som1:
