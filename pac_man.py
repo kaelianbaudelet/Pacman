@@ -12,6 +12,7 @@ class Pac_man:
         # Prochaine direction si le joueur appuie sur une touche directionnelle pendant le déplacement
         self.next_direction = 0
         self.speed = 10
+        self.sprite = True
 
     def deplacer(self):
         if pyxel.btn(pyxel.KEY_RIGHT) and not self.x == 27 and not self.labyrinthe.collision(self.x + 1, self.y):
@@ -46,7 +47,21 @@ class Pac_man:
             self.labyrinthe.detection_powergum(self.x, self.y)
 
     def afficher(self):
-        pyxel.rect(self.x * 8, self.y * 8, 8, 8, 10)
+        if pyxel.frame_count % (self.speed/2) == 0:
+            self.sprite = not self.sprite
+
+        if self.sprite:
+            if self.direction == 0:
+                pyxel.blt(self.x * 8, self.y * 8, 0, 8, 0, 8, 8, 0)
+            elif self.direction == 1:
+                pyxel.blt(self.x * 8, self.y * 8, 0, 32, 0, 8, 8, 0)
+            elif self.direction == 2:
+                pyxel.blt(self.x * 8, self.y * 8, 0, 24, 0, 8, 8, 0)
+            elif self.direction == 3:
+                pyxel.blt(self.x * 8, self.y * 8, 0, 16, 0, 8, 8, 0)
+        else:
+            pyxel.blt(self.x * 8, self.y * 8, 0, 0, 0, 8, 8, 0)
+            
         
     def get_x(self):
         return self.x
