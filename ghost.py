@@ -50,25 +50,31 @@ class Ghost:
         pyxel.rect(self.x * 8 + 1, self.y * 8 + 1, 6, 6, col)
 
 class Blinky(Ghost):
-    def __init__(self, labyrinthe, speed=10):
+    def __init__(self, labyrinthe, graph, speed=10):
         self.labyrinthe = labyrinthe
+        self.graph = graph
         self.ghost = Ghost(11, 13, labyrinthe)
         self.parcours = []
         self.speed = speed
 
-    def deplacer(self, x, y):
+    def deplacer(self, y, x):
         # si on a trouver pacman on tue le fantome
         if self.ghost.get_x() == x and self.ghost.get_y() == y:
             self.ghost.death = True
 
         if pyxel.frame_count % self.speed == 0:
             # change de direction en fonction du chemin
-            if self.ghost.get_death(): # retour a la base
-                self.ghost.deplacer_vers(11, 13)
-                if self.ghost.get_x() == 11 and self.ghost.get_y() == 13:
-                    self.ghost.death = False
-            else:
-                self.ghost.deplacer_vers(x, y)
+            
+            #if self.ghost.get_death(): # retour a la base
+            #    chemin = self.graph.parcours_largeur((self.ghost.get_x(), self.ghost.get_y()), (11, 13))
+            #else:
+            chemin = get_chemin(self.labyrinthe.get_grille(), (self.ghost.get_y(), self.ghost.get_x()), (y, x))
+            
+            if chemin:
+                y, x = chemin[1]
+                self.ghost.set_coordinates(x, y)
+                
+
 
     def affiche(self):
         self.ghost.affiche(8)
@@ -87,6 +93,7 @@ class Inky(Ghost):
 
         if pyxel.frame_count % self.speed == 0:
             # change de direction en fonction du chemin
+            
             if self.ghost.get_death(): # retour a la base
                 chemin = self.graph.parcours_largeur((self.ghost.get_x(), self.ghost.get_y()), (13, 13))
                 if self.ghost.get_x() == 13 and self.ghost.get_y() == 13:
@@ -101,7 +108,7 @@ class Inky(Ghost):
     def affiche(self):
         self.ghost.affiche(12)
         
-class Pinky(Ghost):
+class Pinky(Ghost):                                                                                                                                       
     def __init__(self, labyrinthe, graph, speed=10):
         self.labyrinthe = labyrinthe
         self.ghost = Ghost(15, 13, labyrinthe)

@@ -21,7 +21,7 @@ class Jeu:
         
         # création des fantomes
         self.clyde = Clyde(self.L, speed=30)
-        self.blinky = Blinky(self.L, speed=30)
+        self.blinky = Blinky(self.L, self.G, speed=30)
         self.pinky = Pinky(self.L, self.G, speed=30)
         self.inky = Inky(self.L, self.G, speed=30)
 
@@ -37,8 +37,6 @@ class Jeu:
             self.pac_man.deplacer()
             
             # deplacement des fantomes
-
-            
 
             self.clyde.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
             self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
