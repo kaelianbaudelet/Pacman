@@ -44,7 +44,7 @@ class Ghost:
         self.y = y
         
     def affiche(self, col):
-        pyxel.rect(self.x * 8 + 1, self.y * 8 + 1, 6, 6, col)
+        pyxel.blt(self.x * 8, self.y * 8, 0, 8*col, 8, 8, 8)
 
 class Blinky(Ghost):
     def __init__(self, labyrinthe, speed=10):
@@ -67,7 +67,7 @@ class Blinky(Ghost):
                 self.ghost.set_coordinates(x, y)
 
     def affiche(self):
-        self.ghost.affiche(8)
+        self.ghost.affiche(1)
 
 class Inky(Ghost):
     def __init__(self, labyrinthe, graph, speed=10):
@@ -88,7 +88,7 @@ class Inky(Ghost):
             self.ghost.set_coordinates(x, y)
 
     def affiche(self):
-        self.ghost.affiche(12)
+        self.ghost.affiche(0)
         
 class Pinky(Ghost):
     def __init__(self, labyrinthe, graph, speed=10):
@@ -106,7 +106,7 @@ class Pinky(Ghost):
             self.ghost.set_coordinates(x, y)
 
     def affiche(self):
-        self.ghost.affiche(14)
+        self.ghost.affiche(2)
 
 class Clyde(Ghost):
     def __init__(self, labyrinthe, speed=10):
@@ -134,6 +134,6 @@ class Clyde(Ghost):
             self.ghost.deplacer()
         
     def affiche(self):
-        self.ghost.affiche(9)
+        self.ghost.affiche(3)
         
     
