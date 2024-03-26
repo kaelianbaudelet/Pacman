@@ -31,7 +31,6 @@ class Jeu:
         self.game_started = False
 
         self.pac_man_bouche_compteur = 0
-        self.pac_man_bouche_intervalle = 20
         self.pac_man_ecrant_titre_x = -10
 
         # score
@@ -65,7 +64,7 @@ class Jeu:
             self.pac_man_ecrant_titre_x = 0
 
         # Vérifier si le compteur a atteint l'intervalle défini
-        if self.pac_man_bouche_compteur >= self.pac_man_bouche_intervalle:
+        if self.pac_man_bouche_compteur >= 20:
             self.pac_man_bouche_compteur = 0  # Réinitialiser le compteur
             self.pac_man_ecrant_titre_x += 1  # Dé
 
