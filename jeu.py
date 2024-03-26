@@ -22,10 +22,10 @@ class Jeu:
         self.pac_man = Pac_man(self.L)
 
         # création des fantomes
-        self.clyde = Clyde(self.L, speed=10)
-        self.blinky = Blinky(self.L, speed=10)
-        self.pinky = Pinky(self.L, self.G, speed=10)
-        self.inky = Inky(self.L, self.G, speed=10)
+        self.clyde = Clyde(self.L, speed=14)
+        self.blinky = Blinky(self.L, speed=14)
+        self.pinky = Pinky(self.L, self.G, speed=14)
+        self.inky = Inky(self.L, self.G, speed=14)
 
         self.powertime = False
         self.game_started = False
@@ -101,7 +101,7 @@ class Jeu:
             if self.pac_man_ecrant_titre_x > 28:
                 self.pac_man_ecrant_titre_x = -8
 
-            if self.pac_man_bouche_compteur < self.pac_man_bouche_intervalle // 2:
+            if self.pac_man_bouche_compteur < 20 // 2:
                 pyxel.blt(8*self.pac_man_ecrant_titre_x+40, 8,
                           0, 0, 0, 8, 8, 0)  # Bouche fermée
             else:
