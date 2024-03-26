@@ -17,6 +17,7 @@ class Graph:
                     if j+1 < len(grid[0]) and grid[i][j+1] != 1:
                         self.graph[(i,j)].append((i, j+1))
 
+    # Algo parcours Largeur
     def parcours_largeur(self, som1, som2):
         """ renvoie le chemin par le parcours en largeur du sommet
         som1 jusqu'au sommet som2 """
@@ -52,6 +53,7 @@ class Graph:
         chemin.reverse()
         return chemin
     
+    # Algo parcours Profondeur
     def parcours_profondeur(self, som1, som2):
         """ renvoie le chemin par le parcours en profondeur du sommet
         som1 jusqu'au sommet som2 """
@@ -88,24 +90,7 @@ class Graph:
         return chemin
                 
 
-def dijkstra(graph, source, target):
-    distances = {node: float('inf') for node in graph}
-    distances[source] = 0
-    queue = deque([(source, 0)])
-
-    while queue:
-        node, dist = queue.popleft()
-        if node == target:
-            return distances
-
-        for neighbor in graph[node]:
-            new_dist = dist + 1
-            if new_dist < distances[neighbor]:
-                distances[neighbor] = new_dist
-                queue.append((neighbor, new_dist))
-
-    return distances
-
+# Algo Dijkstra
 def dijkstra(grille, source, cible):
     n, m = len(grille), len(grille[0])
     distances = [[float('inf')] * m for _ in range(n)]
