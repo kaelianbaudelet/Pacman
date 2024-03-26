@@ -52,7 +52,11 @@ class Jeu:
             self.pac_man.deplacer()
             
             self.score += self.L.detection_gomme(self.pac_man.get_x(), self.pac_man.get_y())
-            self.L.detection_powergum(self.pac_man.get_x(), self.pac_man.get_y())
+            if self.L.detection_powergum(self.pac_man.get_x(), self.pac_man.get_y()):
+                self.clyde.can_be_eaten()
+                self.blinky.can_be_eaten()
+                self.pinky.can_be_eaten()
+                self.inky.can_be_eaten()
 
         # Bouton de démarrage du jeu
         if pyxel.btnp(pyxel.KEY_SPACE):
