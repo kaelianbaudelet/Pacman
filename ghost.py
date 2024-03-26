@@ -10,6 +10,7 @@ class Ghost:
         self.y = y
         self.labyrinthe = labyrinthe
         self.death = False
+        self.eat = False
         self.direction = direction
 
     def deplacer(self):
@@ -45,7 +46,12 @@ class Ghost:
         self.y = y
 
     def affiche(self, col):
-        pyxel.blt(self.x * 8, self.y * 8, 0, 8*col, 8, 8, 8)
+        if self.death:
+            pyxel.blt(self.x * 8, self.y * 8, 0, 32, 8, 8, 8, 13)
+        elif self.eat:
+            pyxel.blt(self.x * 8, self.y * 8, 0, 40, 8, 8, 8)
+        else:
+            pyxel.blt(self.x * 8, self.y * 8, 0, 8*col, 8, 8, 8)
 
 class Blinky(Ghost):
     def __init__(self, labyrinthe, speed=10):

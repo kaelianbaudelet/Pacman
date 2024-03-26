@@ -23,9 +23,9 @@ class Lab:
                 if self.grille[i][j] == 1:
                     pyxel.rect(j*8+1, i*8+1, 6, 6, 5) # mur
                 elif self.grille[i][j] == 2:
-                    pyxel.circ(j*8+4, i*8+4, 2, 10) # gomme normale
+                    pyxel.blt(j*8, i*8, 0, 8, 16, 8, 8, 0) # gomme normale
                 elif self.grille[i][j] == 3:
-                    pyxel.circ(j*8+4, i*8+4, 3, 8) # powergum
+                    pyxel.blt(j*8, i*8, 0, 0, 16, 8, 8, 0) # powergum
                 
     def collision(self, x, y):
         # Si la case est un mur, il y a collision (retourne True)
@@ -43,3 +43,5 @@ class Lab:
         # Si une powergum est détectée, on la mange
         if self.grille[y][x] == 3:
             self.grille[y][x] = 0
+            return True
+        return False
