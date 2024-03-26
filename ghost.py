@@ -45,6 +45,9 @@ class Ghost:
         self.x = x
         self.y = y
 
+    def set_eat(self, eat):
+        self.eat = eat
+
     def affiche(self, col):
         if self.death:
             pyxel.blt(self.x * 8, self.y * 8, 0, 32, 8, 8, 8, 13)
@@ -73,6 +76,9 @@ class Blinky(Ghost):
             if chemin:
                 y, x = chemin[1]
                 self.ghost.set_coordinates(x, y)
+
+    def can_be_eaten(self):
+        self.ghost.set_eat(True)
 
     def affiche(self):
         self.ghost.affiche(1)
@@ -111,6 +117,9 @@ class Inky(Ghost):
                 y, x = chemin[1]
                 self.ghost.set_coordinates(x, y)
 
+    def can_be_eaten(self):
+        self.ghost.set_eat(True)
+
     def affiche(self):
         self.ghost.affiche(0)
         
@@ -129,6 +138,9 @@ class Pinky(Ghost):
             # Suivre le chemin
             y, x = chemin[1]
             self.ghost.set_coordinates(x, y)
+
+    def can_be_eaten(self):
+        self.ghost.set_eat(True)
 
     def affiche(self):
         self.ghost.affiche(2)
@@ -157,6 +169,9 @@ class Clyde(Ghost):
                 self.ghost.set_direction(choice(L_dir))
 
             self.ghost.deplacer()
+
+    def can_be_eaten(self):
+        self.ghost.set_eat(True)
 
     def affiche(self):
         self.ghost.affiche(3)
