@@ -84,9 +84,18 @@ class Inky(Ghost):
 
             if self.ghost.get_x() == x and self.ghost.get_y() == y:
                 self.ghost.death = True
+            if self.ghost.get_x() == 13 and self.ghost.get_y() == 13:
+                self.ghost.death = False
 
             if self.ghost.death:
-                print("Inky est mort")
+                # change de direction en fonction du chemin
+                chemin = self.graph.parcours_largeur(
+                    (self.ghost.get_x(), self.ghost.get_y()), (13, 13))
+
+                # Suivre le chemin
+                y, x = chemin[1]
+                self.ghost.set_coordinates(x, y)
+            
             else:
                 # change de direction en fonction du chemin
                 chemin = self.graph.parcours_largeur(

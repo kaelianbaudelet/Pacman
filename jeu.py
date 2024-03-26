@@ -42,17 +42,18 @@ class Jeu:
 
     def update(self):
         if self.game_started:
-            # deplacement de pac-man
-            self.pac_man.deplacer()
-            
-            self.score += self.L.detection_gomme(self.pac_man.get_x(), self.pac_man.get_y())
-            self.L.detection_powergum(self.pac_man.get_x(), self.pac_man.get_y())
             
             # deplacement des fantomes
             self.clyde.deplacer()
             self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
             self.pinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
             self.inky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+
+            # deplacement de pac-man
+            self.pac_man.deplacer()
+            
+            self.score += self.L.detection_gomme(self.pac_man.get_x(), self.pac_man.get_y())
+            self.L.detection_powergum(self.pac_man.get_x(), self.pac_man.get_y())
 
         # Bouton de démarrage du jeu
         if pyxel.btnp(pyxel.KEY_SPACE):
@@ -75,15 +76,15 @@ class Jeu:
         if self.game_started:
             # affichage du labyrinthe
             self.L.affiche()
-
-            # affichage de pacman
-            self.pac_man.afficher()
             
             # affihage des fantomes
             self.clyde.affiche()
             self.blinky.affiche()
             self.inky.affiche()
             self.pinky.affiche()
+
+            # affichage de pacman
+            self.pac_man.afficher()
 
             # affichage du score
             pyxel.text(8, 250, "SCORE: " + str(self.score), 7)

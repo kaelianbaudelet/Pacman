@@ -39,7 +39,7 @@ class Pac_man:
                 self.y += 1
                 
             if self.x > 26:
-                self.x = 0
+                self.x = 1
             elif self.x < 0:
                 self.x = 26
 
