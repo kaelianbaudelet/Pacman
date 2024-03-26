@@ -10,7 +10,9 @@ class Ghost:
         self.y = y
         self.labyrinthe = labyrinthe
         self.death = False
-        self.eat = False
+        self.vulnerable = False
+        self.frame_vulnerable = 0
+        self
         self.direction = direction
 
     def deplacer(self):
@@ -38,20 +40,34 @@ class Ghost:
     def get_y(self):
         return self.y
 
+    def get_vulnerable(self):
+        return self.vulnerable
+
     def set_direction(self, direction):
         self.direction = direction
+
+    def set_death(self, death):
+        self.death = death
+        if death:
+            self.vulnerable = False
 
     def set_coordinates(self, x, y):
         self.x = x
         self.y = y
 
-    def set_eat(self, eat):
-        self.eat = eat
+    def set_vulnerable(self, vulnerable):
+        self.vulnerable = vulnerable
+        if vulnerable:
+            self.frame_vulnerable = pyxel.frame_count
+
+    def set_unvulnerable(self):
+        if pyxel.frame_count - self.frame_vulnerable > 480:
+            self.vulnerable = False
 
     def affiche(self, col):
         if self.death:
             pyxel.blt(self.x * 8, self.y * 8, 0, 32, 8, 8, 8, 13)
-        elif self.eat:
+        elif self.vulnerable:
             pyxel.blt(self.x * 8, self.y * 8, 0, 40, 8, 8, 8)
         else:
             pyxel.blt(self.x * 8, self.y * 8, 0, 8*col, 8, 8, 8)
@@ -64,6 +80,8 @@ class Blinky(Ghost):
         self.speed = speed
 
     def deplacer(self, x, y):
+        self.ghost.set_unvulnerable()
+
         if pyxel.frame_count % self.speed == 0:
 
             # change de direction en fonction du chemin
@@ -78,7 +96,7 @@ class Blinky(Ghost):
                 self.ghost.set_coordinates(x, y)
 
     def can_be_eaten(self):
-        self.ghost.set_eat(True)
+        self.ghost.set_vulnerable(True)
 
     def affiche(self):
         self.ghost.affiche(1)
@@ -92,12 +110,14 @@ class Inky(Ghost):
         self.speed = speed
 
     def deplacer(self, x, y):
+        self.ghost.set_unvulnerable()
+
         if pyxel.frame_count % self.speed == 0:
 
-            if self.ghost.get_x() == x and self.ghost.get_y() == y:
-                self.ghost.death = True
+            if self.ghost.get_x() == x and self.ghost.get_y() == y and self.ghost.get_vulnerable():
+                self.ghost.set_death(True)
             if self.ghost.get_x() == 13 and self.ghost.get_y() == 13:
-                self.ghost.death = False
+                self.ghost.set_death(False)
 
             if self.ghost.death:
                 # change de direction en fonction du chemin
@@ -118,7 +138,7 @@ class Inky(Ghost):
                 self.ghost.set_coordinates(x, y)
 
     def can_be_eaten(self):
-        self.ghost.set_eat(True)
+        self.ghost.set_vulnerable(True)
 
     def affiche(self):
         self.ghost.affiche(0)
@@ -131,6 +151,8 @@ class Pinky(Ghost):
         self.speed = speed
 
     def deplacer(self, x, y):
+        self.ghost.set_unvulnerable()
+
         if pyxel.frame_count % self.speed == 0:
             chemin = self.graph.parcours_profondeur(
                 (self.ghost.get_x(), self.ghost.get_y()), (x, y))
@@ -140,7 +162,7 @@ class Pinky(Ghost):
             self.ghost.set_coordinates(x, y)
 
     def can_be_eaten(self):
-        self.ghost.set_eat(True)
+        self.ghost.set_vulnerable(True)
 
     def affiche(self):
         self.ghost.affiche(2)
@@ -152,6 +174,8 @@ class Clyde(Ghost):
         self.speed = speed
 
     def deplacer(self):
+        self.ghost.set_unvulnerable()
+
         if pyxel.frame_count % self.speed == 0:
             # on créé une liste de tous les chemins
             L_dir = []
@@ -171,7 +195,7 @@ class Clyde(Ghost):
             self.ghost.deplacer()
 
     def can_be_eaten(self):
-        self.ghost.set_eat(True)
+        self.ghost.set_vulnerable(True)
 
     def affiche(self):
         self.ghost.affiche(3)
