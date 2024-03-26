@@ -15,6 +15,15 @@ class Pac_man:
         self.sprite = True
 
     def deplacer(self):
+        if pyxel.btn(pyxel.KEY_RIGHT):
+            self.next_direction = 0
+        elif pyxel.btn(pyxel.KEY_UP):
+            self.next_direction = 1
+        elif pyxel.btn(pyxel.KEY_LEFT):
+            self.next_direction = 2
+        elif pyxel.btn(pyxel.KEY_DOWN):
+            self.next_direction = 3
+        
         if pyxel.btn(pyxel.KEY_RIGHT) and not self.x == 27 and not self.labyrinthe.collision(self.x + 1, self.y):
             self.direction = 0
         elif pyxel.btn(pyxel.KEY_UP) and not self.labyrinthe.collision(self.x, self.y - 1):
@@ -23,18 +32,15 @@ class Pac_man:
             self.direction = 2
         elif pyxel.btn(pyxel.KEY_DOWN) and not self.labyrinthe.collision(self.x, self.y + 1):
             self.direction = 3
+        
         if pyxel.frame_count % self.speed == 0:
-
             # Déplacement automatique tant que la direction ne change pas
             if self.direction == 0 and not self.x == 27 and not self.labyrinthe.collision(self.x + 1, self.y):
                 self.x += 1
-
             elif self.direction == 1 and not self.labyrinthe.collision(self.x, self.y - 1):
                 self.y -= 1
-
             elif self.direction == 2 and not self.labyrinthe.collision(self.x - 1, self.y):
                 self.x -= 1
-
             elif self.direction == 3 and not self.labyrinthe.collision(self.x, self.y + 1):
                 self.y += 1
                 
@@ -42,6 +48,16 @@ class Pac_man:
                 self.x = 1
             elif self.x < 0:
                 self.x = 26
+            
+            # Vérification de la prochaine direction
+            if self.next_direction == 0 and not self.x == 27 and not self.labyrinthe.collision(self.x + 1, self.y):
+                self.direction = 0
+            elif self.next_direction == 1 and not self.labyrinthe.collision(self.x, self.y - 1):
+                self.direction = 1
+            elif self.next_direction == 2 and not self.labyrinthe.collision(self.x - 1, self.y):
+                self.direction = 2
+            elif self.next_direction == 3 and not self.labyrinthe.collision(self.x, self.y + 1):
+                self.direction = 3
 
     def afficher(self):
         if pyxel.frame_count % (self.speed/2) == 0:
