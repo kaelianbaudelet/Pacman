@@ -9,7 +9,7 @@ class Jeu:
     
     def __init__(self, laby):
         
-        pyxel.init(224, 248, title="Pac-man", fps = 60)
+        pyxel.init(224, 264, title="Pac-man", fps = 60)
         pyxel.load("res.pyxres")
         
         # création du labyrinthe
@@ -28,6 +28,7 @@ class Jeu:
 
         self.powertime = False
         self.game_started = False
+        self.score = 0
         
         # Lancement du jeu
         pyxel.run(self.update, self.draw)
@@ -36,6 +37,9 @@ class Jeu:
         if self.game_started:
             # deplacement de pac-man
             self.pac_man.deplacer()
+            
+            self.score += self.L.detection_gomme(self.pac_man.get_x(), self.pac_man.get_y())
+            self.L.detection_powergum(self.pac_man.get_x(), self.pac_man.get_y())
             
             # deplacement des fantomes
             self.clyde.deplacer()
@@ -56,11 +60,14 @@ class Jeu:
             # affichage de pacman
             self.pac_man.afficher()
             
-            # affihage de pac-man
+            # affihage des fantomes
             self.clyde.affiche()
             self.blinky.affiche()
             self.inky.affiche()
             self.pinky.affiche()
+
+            # affichage du score
+            pyxel.text(8, 250, "SCORE: " + str(self.score), 7)
         else:
             # Bouton de démarrage du jeu
             pyxel.rect(80, 120, 64, 16, 7)

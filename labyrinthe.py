@@ -36,6 +36,8 @@ class Lab:
         # Si une gomme est détectée, on la mange
         if self.grille[y][x] == 2:
             self.grille[y][x] = 0
+            return 1
+        return 0
 
     def detection_powergum(self, x, y):
         # Si une powergum est détectée, on la mange

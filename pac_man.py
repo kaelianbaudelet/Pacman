@@ -43,9 +43,6 @@ class Pac_man:
             elif self.x < 0:
                 self.x = 26
 
-            self.labyrinthe.detection_gomme(self.x, self.y)
-            self.labyrinthe.detection_powergum(self.x, self.y)
-
     def afficher(self):
         if pyxel.frame_count % (self.speed/2) == 0:
             self.sprite = not self.sprite
