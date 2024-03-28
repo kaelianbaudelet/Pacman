@@ -22,14 +22,14 @@ class Jeu:
         self.pac_man = Pac_man(self.L)
 
         # création des fantomes
-        self.clyde = Clyde(self.L, speed=14)
+        self.clyde = Clyde(self.L, self.G, speed=14)
         self.blinky = Blinky(self.L, self.G, speed=14)
         self.pinky = Pinky(self.L, self.G, speed=14)
         self.inky = Inky(self.L, self.G, speed=14)
 
         self.powertime = False
         self.game_started = False
-        self.depart_fantomes = 0
+        self.depart_fantomes = 1
 
         self.pac_man_bouche_compteur = 0
         self.pac_man_ecrant_titre_x = -10
@@ -46,12 +46,12 @@ class Jeu:
 
             # incrementation du compteur de depart des fantomes toute les 60 frames, toutes les 60 frames un fantome part
 
-            if pyxel.frame_count % 600 == 0:
+            if pyxel.frame_count % 300 == 0:
                 print(self.depart_fantomes)
                 self.depart_fantomes += 1
 
             if self.depart_fantomes >= 1:
-                self.clyde.deplacer()
+                self.clyde.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
             if self.depart_fantomes >= 2:
                 self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
             if self.depart_fantomes >= 3:
@@ -63,7 +63,9 @@ class Jeu:
             self.pac_man.deplacer()
             
             self.score += self.L.detection_gomme(self.pac_man.get_x(), self.pac_man.get_y())
-            if self.L.detection_powergum(self.pac_man.get_x(), self.pac_man.get_y()):
+            tmp_pg = self.L.detection_powergum(self.pac_man.get_x(), self.pac_man.get_y())
+            self.score += tmp_pg
+            if tmp_pg > 0:
                 self.clyde.can_be_eaten()
                 self.blinky.can_be_eaten()
                 self.pinky.can_be_eaten()
