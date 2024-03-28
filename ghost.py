@@ -108,7 +108,7 @@ class Blinky(Ghost):
                     grille, (self.ghost.get_y(), self.ghost.get_x()), (y, x))
 
                 # Suivre le chemin
-                if chemin:
+                if len(chemin) > 1:
                     y, x = chemin[1]
                     self.ghost.set_coordinates(x, y)
 
@@ -167,8 +167,9 @@ class Inky(Ghost):
                     (self.ghost.get_x(), self.ghost.get_y()), (x, y))
 
                 # Suivre le chemin
-                y, x = chemin[1]
-                self.ghost.set_coordinates(x, y)
+                if len(chemin) > 1:
+                    y, x = chemin[1]
+                    self.ghost.set_coordinates(x, y)
 
     def can_be_eaten(self):
         self.ghost.set_vulnerable(True)
@@ -199,16 +200,18 @@ class Pinky(Ghost):
                 (self.ghost.get_x(), self.ghost.get_y()), (13, 13))
 
                 # Suivre le chemin
-                y, x = chemin[1]
-                self.ghost.set_coordinates(x, y)
+                if len(chemin) > 1:
+                    y, x = chemin[1]
+                    self.ghost.set_coordinates(x, y)
                 
             else:
                 chemin = self.graph.parcours_largeur(
                     (self.ghost.get_x(), self.ghost.get_y()), (x, y))
 
                 # Suivre le chemin
-                y, x = chemin[1]
-                self.ghost.set_coordinates(x, y)
+                if len(chemin) > 1:
+                    y, x = chemin[1]
+                    self.ghost.set_coordinates(x, y)
 
     def can_be_eaten(self):
         self.ghost.set_vulnerable(True)

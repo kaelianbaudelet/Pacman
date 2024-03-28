@@ -46,7 +46,7 @@ class Pac_man:
                 
             if self.x > 26:
                 self.x = 1
-            elif self.x < 0:
+            elif self.x < 1:
                 self.x = 26
             
             # Vérification de la prochaine direction
