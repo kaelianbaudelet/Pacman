@@ -29,6 +29,7 @@ class Jeu:
 
         self.powertime = False
         self.game_started = False
+        self.depart_fantomes = 0
 
         self.pac_man_bouche_compteur = 0
         self.pac_man_ecrant_titre_x = -10
@@ -41,13 +42,23 @@ class Jeu:
 
     def update(self):
         if self.game_started:
-            
             # deplacement des fantomes
-            self.clyde.deplacer()
-            self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
-            self.pinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
-            self.inky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
 
+            # incrementation du compteur de depart des fantomes toute les 60 frames, toutes les 60 frames un fantome part
+
+            if pyxel.frame_count % 600 == 0:
+                print(self.depart_fantomes)
+                self.depart_fantomes += 1
+
+            if self.depart_fantomes >= 1:
+                self.clyde.deplacer()
+            if self.depart_fantomes >= 2:
+                self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+            if self.depart_fantomes >= 3:
+                self.pinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+            if self.depart_fantomes >= 4:
+                self.inky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+            
             # deplacement de pac-man
             self.pac_man.deplacer()
             
