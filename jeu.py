@@ -23,7 +23,7 @@ class Jeu:
 
         # création des fantomes
         self.clyde = Clyde(self.L, speed=14)
-        self.blinky = Blinky(self.L, speed=14)
+        self.blinky = Blinky(self.L, self.G, speed=14)
         self.pinky = Pinky(self.L, self.G, speed=14)
         self.inky = Inky(self.L, self.G, speed=14)
 

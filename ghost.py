@@ -12,7 +12,6 @@ class Ghost:
         self.death = False
         self.vulnerable = False
         self.frame_vulnerable = 0
-        self
         self.direction = direction
 
     def deplacer(self):
@@ -42,6 +41,9 @@ class Ghost:
 
     def get_vulnerable(self):
         return self.vulnerable
+
+    def get_death(self):
+        return self.death
 
     def set_direction(self, direction):
         self.direction = direction
@@ -73,38 +75,9 @@ class Ghost:
             pyxel.blt(self.x * 8, self.y * 8, 0, 8*col, 8, 8, 8)
 
 class Blinky(Ghost):
-    def __init__(self, labyrinthe, speed=10):
-        self.labyrinthe = labyrinthe
-        self.ghost = Ghost(11, 13, labyrinthe)
-        self.parcours = []
-        self.speed = speed
-
-    def deplacer(self, x, y):
-        self.ghost.set_unvulnerable()
-
-        if pyxel.frame_count % self.speed == 0:
-
-            # change de direction en fonction du chemin
-            # Calculer le chemin le plus court vers Pac-Man
-            grille = self.labyrinthe.get_grille()
-            chemin = get_chemin(
-                grille, (self.ghost.get_y(), self.ghost.get_x()), (y, x))
-
-            # Suivre le chemin
-            if chemin:
-                y, x = chemin[1]
-                self.ghost.set_coordinates(x, y)
-
-    def can_be_eaten(self):
-        self.ghost.set_vulnerable(True)
-
-    def affiche(self):
-        self.ghost.affiche(1)
-
-class Inky(Ghost):
     def __init__(self, labyrinthe, graph, speed=10):
         self.labyrinthe = labyrinthe
-        self.ghost = Ghost(13, 13, labyrinthe)
+        self.ghost = Ghost(11, 13, labyrinthe)
         self.graph = graph
         self.parcours = []
         self.speed = speed
@@ -127,7 +100,67 @@ class Inky(Ghost):
                 # Suivre le chemin
                 y, x = chemin[1]
                 self.ghost.set_coordinates(x, y)
+            else:
+                # change de direction en fonction du chemin
+                # Calculer le chemin le plus court vers Pac-Man
+                grille = self.labyrinthe.get_grille()
+                chemin = get_chemin(
+                    grille, (self.ghost.get_y(), self.ghost.get_x()), (y, x))
+
+                # Suivre le chemin
+                if chemin:
+                    y, x = chemin[1]
+                    self.ghost.set_coordinates(x, y)
+
+    def can_be_eaten(self):
+        self.ghost.set_vulnerable(True)
+
+    def affiche(self):
+        self.ghost.affiche(1)
+
+class Inky(Ghost):
+    def __init__(self, labyrinthe, graph, speed=10): 
+        self.labyrinthe = labyrinthe
+        self.ghost = Ghost(13, 13, labyrinthe)
+        self.graph = graph
+        self.parcours = []
+        self.speed = speed
+        self.chemin_vulnerable = [] # chemin à suivre pour fuir
+
+    def deplacer(self, x, y):
+        self.ghost.set_unvulnerable()
+
+        # le fantome fais ses actions en fonction de sa vitesse
+        if pyxel.frame_count % self.speed == 0:
+
+            if self.ghost.get_x() == x and self.ghost.get_y() == y and self.ghost.get_vulnerable():
+                # le fantome meurt si il est vulnérable et qu'il est sur Pac man
+                self.ghost.set_death(True)
+            if self.ghost.get_x() == 13 and self.ghost.get_y() == 13 and self.ghost.get_death():
+                # le fantome revient à la vie si il est mort et qu'il est sur la case de départ
+                self.ghost.set_death(False)
+            if not self.ghost.get_vulnerable():
+                # on vide le chemin à suivre pour fuir si le fantome n'est plus vulnérable
+                self.chemin_vulnerable = []
+
+            if self.ghost.get_death():
+                # change de direction en fonction du chemin
+                chemin = self.graph.parcours_largeur(
+                    (self.ghost.get_x(), self.ghost.get_y()), (13, 13))
+
+                # Suivre le chemin
+                y, x = chemin[1]
+                self.ghost.set_coordinates(x, y)
             
+            elif self.ghost.get_vulnerable():
+                # Si le fantôme est vulnérable, il se déplace en suivant un chemin de parcour en profondeur
+                if not self.chemin_vulnerable:
+                    self.chemin_vulnerable = self.graph.parcours_profondeur(
+                        (self.ghost.get_x(), self.ghost.get_y()), (x, y))
+                    self.chemin_vulnerable.pop(0)
+                y, x = self.chemin_vulnerable.pop(0)
+                self.ghost.set_coordinates(x, y)
+
             else:
                 # change de direction en fonction du chemin
                 chemin = self.graph.parcours_largeur(
@@ -154,12 +187,28 @@ class Pinky(Ghost):
         self.ghost.set_unvulnerable()
 
         if pyxel.frame_count % self.speed == 0:
-            chemin = self.graph.parcours_profondeur(
-                (self.ghost.get_x(), self.ghost.get_y()), (x, y))
 
-            # Suivre le chemin
-            y, x = chemin[1]
-            self.ghost.set_coordinates(x, y)
+            if self.ghost.get_x() == x and self.ghost.get_y() == y and self.ghost.get_vulnerable():
+                self.ghost.set_death(True)
+            if self.ghost.get_x() == 13 and self.ghost.get_y() == 13:
+                self.ghost.set_death(False)
+
+            if self.ghost.get_death():
+                # change de direction en fonction du chemin
+                chemin = self.graph.parcours_largeur(
+                (self.ghost.get_x(), self.ghost.get_y()), (13, 13))
+
+                # Suivre le chemin
+                y, x = chemin[1]
+                self.ghost.set_coordinates(x, y)
+                
+            else:
+                chemin = self.graph.parcours_largeur(
+                    (self.ghost.get_x(), self.ghost.get_y()), (x, y))
+
+                # Suivre le chemin
+                y, x = chemin[1]
+                self.ghost.set_coordinates(x, y)
 
     def can_be_eaten(self):
         self.ghost.set_vulnerable(True)
