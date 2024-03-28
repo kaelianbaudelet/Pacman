@@ -77,7 +77,7 @@ class Ghost:
 class Blinky(Ghost):
     def __init__(self, labyrinthe, graph, speed=10):
         self.labyrinthe = labyrinthe
-        self.ghost = Ghost(11, 13, labyrinthe)
+        self.ghost = Ghost(1, 1, labyrinthe)
         self.graph = graph
         self.parcours = []
         self.speed = speed
@@ -121,7 +121,7 @@ class Blinky(Ghost):
 class Inky(Ghost):
     def __init__(self, labyrinthe, graph, speed=10): 
         self.labyrinthe = labyrinthe
-        self.ghost = Ghost(13, 13, labyrinthe)
+        self.ghost = Ghost(1, 2, labyrinthe)
         self.graph = graph
         self.parcours = []
         self.speed = speed
@@ -179,7 +179,7 @@ class Inky(Ghost):
 class Pinky(Ghost):
     def __init__(self, labyrinthe, graph, speed=10):
         self.labyrinthe = labyrinthe
-        self.ghost = Ghost(15, 13, labyrinthe)
+        self.ghost = Ghost(1, 3, labyrinthe)
         self.graph = graph
         self.speed = speed
 
@@ -219,7 +219,7 @@ class Pinky(Ghost):
 class Clyde(Ghost):
     def __init__(self, labyrinthe, speed=10):
         self.labyrinthe = labyrinthe
-        self.ghost = Ghost(17, 13, labyrinthe)
+        self.ghost = Ghost(1, 4, labyrinthe)
         self.speed = speed
 
     def deplacer(self):
