@@ -86,7 +86,25 @@ class Jeu:
 
                 self.depart_fantomes = 0
 
-            # deplacement des fantomes
+            # mort définitive
+            if self.vie < 0:
+                # recréation du labyrinthe avec les gommes
+                self.L = Lab(list(self.laby_initial))
+                self.score = 0
+                self.vie = 3
+                self.game_started = False
+
+                # Retéléportation des fantomes
+                print('fin du jeu')
+
+                self.clyde = Clyde(self.L, self.G, speed=14)
+                self.blinky = Blinky(self.L, self.G, speed=13)
+                self.pinky = Pinky(self.L, self.G, speed=15)
+                self.inky = Inky(self.L, self.G, speed=14)
+
+                self.pac_man = Pac_man(self.L)
+
+                self.depart_fantomes = 0
 
             # incrementation du compteur de depart des fantomes toute les 60
             # frames, toutes les 60 frames un fantome part
@@ -94,16 +112,16 @@ class Jeu:
             if pyxel.frame_count % 300 == 0 and self.depart_fantomes < 5:
                 self.depart_fantomes += 1
 
-            if self.depart_fantomes >= 1:
+            if self.depart_fantomes >= 0:
                 self.clyde.arreter_animation_attente()
-
-            if self.depart_fantomes >= 2:
+                
+            if self.depart_fantomes >= 1:
                 self.pinky.arreter_animation_attente()
-
-            if self.depart_fantomes >= 3:
+                
+            if self.depart_fantomes >= 2:
                 self.blinky.arreter_animation_attente()
-
-            if self.depart_fantomes >= 4:
+                
+            if self.depart_fantomes >= 3:
                 self.inky.arreter_animation_attente()
 
             liste_mort = []
@@ -189,9 +207,10 @@ class Jeu:
             pyxel.text(4, 262, "HI-SCORE: " + str(self.score), 7)
             pyxel.text(130, 252, "1UP", 7)
             pyxel.text(180, 252, "CREDITS: 3", 7)
-            pyxel.blt(98, 251, 0, 8, 0, 8, 8, 0)
-            pyxel.blt(108, 251, 0, 8, 0, 8, 8, 0)
-            pyxel.blt(118, 251, 0, 8, 0, 8, 8, 0)
+
+            for i in range(self.vie):
+                pyxel.blt(98+i*10, 260, 0, 8, 0, 8, 8, 0)
+
         else:
             # Bouton de démarrage du jeu
             pyxel.rect(80, 120, 64, 16, 7)
