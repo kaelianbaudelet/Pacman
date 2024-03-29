@@ -93,7 +93,7 @@ class Blinky(Ghost):
             if self.ghost.get_x() == 13 and self.ghost.get_y() == 13:
                 self.ghost.set_death(False)
 
-            if self.ghost.get_vulnerable():
+            if not self.ghost.get_vulnerable():
                 self.parcours_vulnerable = []
 
             if self.ghost.death:
@@ -153,6 +153,7 @@ class Inky(Ghost):
             if self.ghost.get_x() == 13 and self.ghost.get_y() == 13 and self.ghost.get_death():
                 # le fantome revient à la vie si il est mort et qu'il est sur la case de départ
                 self.ghost.set_death(False)
+
             if not self.ghost.get_vulnerable():
                 # on vide le chemin à suivre pour fuir si le fantome n'est plus vulnérable
                 self.chemin_vulnerable = []
@@ -262,9 +263,6 @@ class Clyde(Ghost):
                 self.ghost.set_death(True)
             if self.ghost.get_x() == 13 and self.ghost.get_y() == 13:
                 self.ghost.set_death(False)
-
-            if not self.ghost.get_vulnerable():
-                self.chemin_vulnerable = []
 
             if self.ghost.get_death():
                 # change de direction en fonction du chemin
