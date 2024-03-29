@@ -57,6 +57,17 @@ class Jeu:
         self.score = 0
         self.vie = 3
 
+        # Importe le highsore depuis le fichier ou le crée (highscore.txt)
+        try:
+            with open("highscore.txt", "r") as f:
+                self.highscore = int(f.read())
+        except FileNotFoundError:
+            with open("highscore.txt", "w") as f:
+                f.write("0")
+            self.highscore = 0
+
+        
+
         # TODO : faire les musiques
 
         # Lancement du jeu
@@ -88,6 +99,12 @@ class Jeu:
 
             # mort définitive
             if self.vie < 0:
+
+                # sauvagarde du highscore si il est battu
+                if self.score > self.highscore:
+                    with open("highscore.txt", "w") as f:
+                        f.write(str(self.score))
+
                 # recréation du labyrinthe avec les gommes
                 self.L = Lab(list(self.laby_initial))
                 self.score = 0
