@@ -14,14 +14,14 @@ class Graph:
                     self.graph[(i, j)] = []
 
                     # On ajoute les arêtes pour chaque case adjacente non mur
-                    if i-1 > -1 and grid[i-1][j] != 1:
-                        self.graph[(i,j)].append((i-1, j))
-                    if i+1 < len(grid) and grid[i+1][j] != 1:
-                        self.graph[(i,j)].append((i+1, j))
-                    if j-1 > -1 and grid[i][j-1] != 1:
-                        self.graph[(i,j)].append((i, j-1))
-                    if j+1 < len(grid[0]) and grid[i][j+1] != 1:
-                        self.graph[(i,j)].append((i, j+1))
+                    if i - 1 > -1 and grid[i - 1][j] != 1:
+                        self.graph[(i, j)].append((i - 1, j))
+                    if i + 1 < len(grid) and grid[i + 1][j] != 1:
+                        self.graph[(i, j)].append((i + 1, j))
+                    if j - 1 > -1 and grid[i][j - 1] != 1:
+                        self.graph[(i, j)].append((i, j - 1))
+                    if j + 1 < len(grid[0]) and grid[i][j + 1] != 1:
+                        self.graph[(i, j)].append((i, j + 1))
 
     # Algo parcours Largeur
     def parcours_largeur(self, som1, som2):
@@ -31,27 +31,28 @@ class Graph:
         # on inverse les coordonnées pour éviter des bugs
         som1 = (som1[1], som1[0])
         som2 = (som2[1], som2[0])
-        
+
         # file pour le parcours en largeur
         file = deque()
         # False s'il n'y a pas de marque sinon le sommet d'ou elle vient
         marques = {v: False for v in self.graph.keys()}
         parcours = []
-        
-        marques[som1] = som1 # le sommet vient de lui même
-        file.append(som1) # on ajoute le sommet de départ
-        
-        u = som1 # sommet courant pour éviter les crachs
+
+        marques[som1] = som1  # le sommet vient de lui même
+        file.append(som1)  # on ajoute le sommet de départ
+
+        u = som1  # sommet courant pour éviter les crachs
         # on explore tout le graphe jusqu'a tomber sur le bon sommet
         # pas besoin de faire tout le parcours
-        while u != som2 and len(file)>0:
+        while u != som2 and len(file) > 0:
             # on prend le sommet en tête de file
             u = file.popleft()
             # on ajoute les sommets adjacents non marqués
             for v in self.graph[u]:
                 if marques[v] == False:
-                     marques[v] = u # on marque le sommet avec le sommet d'ou on vient
-                     file.append(v)    
+                    # on marque le sommet avec le sommet d'ou on vient
+                    marques[v] = u
+                    file.append(v)
             # on ajoute le sommet courant au parcours
             parcours.append(u)
 
@@ -59,10 +60,10 @@ class Graph:
         chemin = []
         # tant qu'on a pas atteint le sommet de départ
         while u != som1:
-            chemin.append(u) # on ajoute le sommet courant
-            u = marques[u] # on prend le sommet d'ou on vient
-        chemin.append(u) # on ajoute le sommet de départ
-            
+            chemin.append(u)  # on ajoute le sommet courant
+            u = marques[u]  # on prend le sommet d'ou on vient
+        chemin.append(u)  # on ajoute le sommet de départ
+
         # on retourne la liste et la renvoie
         chemin.reverse()
         return chemin
@@ -74,36 +75,37 @@ class Graph:
         # on inverse les coordonnées pour éviter des bugs
         som1 = (som1[1], som1[0])
         som2 = (som2[1], som2[0])
-        
+
         pile = deque()
         # False s'il n'y a pas de marque sinon le sommet d'ou elle vient
         marques = {v: False for v in self.graph.keys()}
         parcours = []
-        
-        marques[som1] = som1 # le sommet vient de lui même
+
+        marques[som1] = som1  # le sommet vient de lui même
         pile.append(som1)
-        
+
         u = som1
         # on explore tout le graphe jusqu'a tomber sur le bon sommet
         # pas besoin de faire tout le parcours
-        while u != som2 and len(pile)>0:
+        while u != som2 and len(pile) > 0:
             # on prend le sommet en tête de pile
             u = pile.pop()
             # on ajoute les sommets adjacents non marqués
             for v in self.graph[u]:
                 if marques[v] == False:
-                     marques[v] = u # on marque le sommet avec le sommet d'ou on vient
-                     pile.append(v) 
-            parcours.append(u) # on ajoute le sommet courant au parcours
+                    # on marque le sommet avec le sommet d'ou on vient
+                    marques[v] = u
+                    pile.append(v)
+            parcours.append(u)  # on ajoute le sommet courant au parcours
 
         # on remonte le chemin parcouru en utilisant les marques
         chemin = []
         # tant qu'on a pas atteint le sommet de départ
         while u != som1:
-            chemin.append(u) # on ajoute le sommet courant
-            u = marques[u] # on prend le sommet d'ou on vient
-        chemin.append(u) # on ajoute le sommet de départ
-            
+            chemin.append(u)  # on ajoute le sommet courant
+            u = marques[u]  # on prend le sommet d'ou on vient
+        chemin.append(u)  # on ajoute le sommet de départ
+
         # on retourne la liste et la renvoie
         chemin.reverse()
         return chemin

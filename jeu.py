@@ -107,10 +107,22 @@ class Jeu:
                 self.inky.arreter_animation_attente()
 
             liste_mort = []
-            liste_mort.append(self.inky.deplacer(self.pac_man.get_x(), self.pac_man.get_y()))
-            liste_mort.append(self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y()))
-            liste_mort.append(self.pinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y()))
-            liste_mort.append(self.clyde.deplacer(self.pac_man.get_x(), self.pac_man.get_y()))
+            liste_mort.append(
+                self.inky.deplacer(
+                    self.pac_man.get_x(),
+                    self.pac_man.get_y()))
+            liste_mort.append(
+                self.blinky.deplacer(
+                    self.pac_man.get_x(),
+                    self.pac_man.get_y()))
+            liste_mort.append(
+                self.pinky.deplacer(
+                    self.pac_man.get_x(),
+                    self.pac_man.get_y()))
+            liste_mort.append(
+                self.clyde.deplacer(
+                    self.pac_man.get_x(),
+                    self.pac_man.get_y()))
 
             if True in liste_mort:
                 self.vie -= 1
@@ -125,8 +137,7 @@ class Jeu:
                 self.pac_man = Pac_man(self.L)
 
                 self.depart_fantomes = 0
-                
-            
+
             # deplacement de pac-man
             self.pac_man.deplacer()
 
