@@ -25,8 +25,8 @@ class Jeu:
 
         # création des fantomes
         self.clyde = Clyde(self.L, self.G, speed=14)
-        self.blinky = Blinky(self.L, self.G, speed=14)
-        self.pinky = Pinky(self.L, self.G, speed=14)
+        self.blinky = Blinky(self.L, self.G, speed=13)
+        self.pinky = Pinky(self.L, self.G, speed=15)
         self.inky = Inky(self.L, self.G, speed=14)
 
         self.powertime = False
@@ -38,6 +38,9 @@ class Jeu:
 
         # score
         self.score = 0
+        self.vie = 3
+
+        # TODO : faire les musiques
 
         # Lancement du jeu
         pyxel.run(self.update, self.draw)
@@ -58,17 +61,13 @@ class Jeu:
                 print('Niveau suivant')
 
                 self.clyde = Clyde(self.L, self.G, speed=14)
-                self.blinky = Blinky(self.L, self.G, speed=14)
-                self.pinky = Pinky(self.L, self.G, speed=14)
+                self.blinky = Blinky(self.L, self.G, speed=13)
+                self.pinky = Pinky(self.L, self.G, speed=15)
                 self.inky = Inky(self.L, self.G, speed=14)
 
+                self.pac_man = Pac_man(self.L)
+
                 self.depart_fantomes = 0
-
-
-
-
-
-
 
             # deplacement des fantomes
 
@@ -89,10 +88,25 @@ class Jeu:
             if self.depart_fantomes >= 4:
                 self.inky.arreter_animation_attente()
 
-            self.inky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
-            self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
-            self.pinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
-            self.clyde.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+            liste_mort = []
+            liste_mort.append(self.inky.deplacer(self.pac_man.get_x(), self.pac_man.get_y()))
+            liste_mort.append(self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y()))
+            liste_mort.append(self.pinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y()))
+            liste_mort.append(self.clyde.deplacer(self.pac_man.get_x(), self.pac_man.get_y()))
+
+            if True in liste_mort:
+                self.vie -= 1
+                print('mort pacman')
+
+                # Retéléportation des fantomes
+                self.clyde = Clyde(self.L, self.G, speed=14)
+                self.blinky = Blinky(self.L, self.G, speed=13)
+                self.pinky = Pinky(self.L, self.G, speed=15)
+                self.inky = Inky(self.L, self.G, speed=14)
+
+                self.pac_man = Pac_man(self.L)
+
+                self.depart_fantomes = 0
                 
             
             # deplacement de pac-man
@@ -107,19 +121,20 @@ class Jeu:
                 self.pinky.can_be_eaten()
                 self.inky.can_be_eaten()
 
-        # Bouton de démarrage du jeu
-        if pyxel.btnp(pyxel.KEY_SPACE):
-            self.game_started = True
+        else:
+            # Bouton de démarrage du jeu
+            if pyxel.btnp(pyxel.KEY_SPACE):
+                self.game_started = True
 
-        self.pac_man_bouche_compteur += 1
+            self.pac_man_bouche_compteur += 1
 
-        if self.pac_man_ecrant_titre_x >= 30:
-            self.pac_man_ecrant_titre_x = 0
+            if self.pac_man_ecrant_titre_x >= 30:
+                self.pac_man_ecrant_titre_x = 0
 
-        # Vérifier si le compteur a atteint l'intervalle défini
-        if self.pac_man_bouche_compteur >= 20:
-            self.pac_man_bouche_compteur = 0  # Réinitialiser le compteur
-            self.pac_man_ecrant_titre_x += 1  # Dé
+            # Vérifier si le compteur a atteint l'intervalle défini
+            if self.pac_man_bouche_compteur >= 20:
+                self.pac_man_bouche_compteur = 0  # Réinitialiser le compteur
+                self.pac_man_ecrant_titre_x += 1  # Déplacer le sprite de la bouche
 
     def draw(self):
 
@@ -138,7 +153,7 @@ class Jeu:
             # affichage de pacman
             self.pac_man.afficher()
 
-            # affichage du score
+            # affichage du score et des vies
             pyxel.text(4, 252, "SCORE: " + str(self.score), 7)
             pyxel.text(4, 262, "HI-SCORE: " + str(self.score), 7)
             pyxel.text(130, 252, "1UP", 7)
