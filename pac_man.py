@@ -6,8 +6,8 @@ from labyrinthe import *
 class Pac_man:
     def __init__(self, labyrinthe):
         self.labyrinthe = labyrinthe
-        self.x = 1  # Position initiale en x
-        self.y = 1  # Position initiale en y
+        self.x = 15  # Position initiale en x
+        self.y = 23  # Position initiale en y
         self.direction = 0  # 0: droite, 1: haut, 2: gauche, 3: bas
         # Prochaine direction si le joueur appuie sur une touche directionnelle
         # pendant le déplacement

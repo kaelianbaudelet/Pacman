@@ -118,7 +118,7 @@ class Blinky(Ghost):
             if self.ghost.get_x() == x and self.ghost.get_y() == y:
                 if self.ghost.get_vulnerable():
                     self.ghost.set_death(True)
-                else:
+                elif not self.ghost.get_death():
                     return True
 
             # on fait revivre le fantome si il est mort et sur la case de
@@ -212,7 +212,7 @@ class Inky(Ghost):
                 # man
                 if self.ghost.get_vulnerable():
                     self.ghost.set_death(True)
-                else:
+                elif not self.ghost.get_death():
                     return True
 
             if self.ghost.get_x() == 13 and self.ghost.get_y() == 13 and self.ghost.get_death():
@@ -308,7 +308,7 @@ class Pinky(Ghost):
             if self.ghost.get_x() == x and self.ghost.get_y() == y:
                 if self.ghost.get_vulnerable():
                     self.ghost.set_death(True)
-                else:
+                elif not self.ghost.get_death():
                     return True
 
             if self.ghost.get_x() == 13 and self.ghost.get_y() == 13:
@@ -394,6 +394,13 @@ class Clyde(Ghost):
                         self.direction_attente = True
 
         else:
+
+            if self.ghost.get_x() == x and self.ghost.get_y() == y:
+                if self.ghost.get_vulnerable():
+                    self.ghost.set_death(True)
+                elif not self.ghost.get_death():
+                    return True
+                
             if pyxel.frame_count % self.speed == 0:
                 if self.omniscience_temporaire:
                     # permet temporairment a clyde de sortir de la maison de
@@ -419,12 +426,6 @@ class Clyde(Ghost):
                     self.ghost.set_unvulnerable()
 
                     # on créé une liste de tous les chemins
-
-                    if self.ghost.get_x() == x and self.ghost.get_y() == y:
-                        if self.ghost.get_vulnerable():
-                            self.ghost.set_death(True)
-                        else:
-                            return True
 
                     if self.ghost.get_x() == 12 and self.ghost.get_y() == 14:
                         self.ghost.set_death(False)
