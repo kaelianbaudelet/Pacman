@@ -12,7 +12,24 @@ class Jeu:
 
         pyxel.init(224, 272, title="Pac-man", fps=60)
         pyxel.load("res.pyxres")
-        
+
+        pyxel.colors[0] = 0x000000
+        pyxel.colors[1] = 0x0000FF
+        pyxel.colors[2] = 0xFF0000
+        pyxel.colors[3] = 0x00FF00
+        pyxel.colors[4] = 0xFFFF00
+        pyxel.colors[5] = 0x5B59BC
+        pyxel.colors[6] = 0x00FFFF
+        pyxel.colors[7] = 0xFFFFFF
+        pyxel.colors[8] = 0xFC5506
+        pyxel.colors[9] = 0xFFA308
+        pyxel.colors[10] = 0xFFFB4F
+        pyxel.colors[11] = 0x7FFFFF
+        pyxel.colors[12] = 0x0BA8F9
+        pyxel.colors[13] = 0xFF7FFF
+        pyxel.colors[15] = 0xf5fcc6
+        pyxel.colors[14] = 0xF8A6FB
+
         # création du labyrinthe
         self.laby_initial = laby[:]
 
@@ -40,6 +57,7 @@ class Jeu:
         self.score = 0
 
         # Lancement du jeu
+
         pyxel.run(self.update, self.draw)
 
     def update(self):
@@ -47,7 +65,6 @@ class Jeu:
 
             if pyxel.btn(pyxel.KEY_K):
                 self.L.total_pagomme = 0
-
 
             # PASSAGE NIVEAU SUIVANT
             if self.L.total_pagomme <= 0:
@@ -64,28 +81,23 @@ class Jeu:
 
                 self.depart_fantomes = 0
 
-
-
-
-
-
-
             # deplacement des fantomes
 
-            # incrementation du compteur de depart des fantomes toute les 60 frames, toutes les 60 frames un fantome part
+            # incrementation du compteur de depart des fantomes toute les 60
+            # frames, toutes les 60 frames un fantome part
 
             if pyxel.frame_count % 300 == 0 and self.depart_fantomes < 5:
                 self.depart_fantomes += 1
 
             if self.depart_fantomes >= 1:
                 self.clyde.arreter_animation_attente()
-                
+
             if self.depart_fantomes >= 2:
                 self.pinky.arreter_animation_attente()
-                
+
             if self.depart_fantomes >= 3:
                 self.blinky.arreter_animation_attente()
-                
+
             if self.depart_fantomes >= 4:
                 self.inky.arreter_animation_attente()
 
@@ -93,13 +105,14 @@ class Jeu:
             self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
             self.pinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
             self.clyde.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
-                
-            
+
             # deplacement de pac-man
             self.pac_man.deplacer()
-            
-            self.score += self.L.detection_gomme(self.pac_man.get_x(), self.pac_man.get_y())
-            tmp_pg = self.L.detection_powergum(self.pac_man.get_x(), self.pac_man.get_y())
+
+            self.score += self.L.detection_gomme(
+                self.pac_man.get_x(), self.pac_man.get_y())
+            tmp_pg = self.L.detection_powergum(
+                self.pac_man.get_x(), self.pac_man.get_y())
             self.score += tmp_pg
             if tmp_pg > 0:
                 self.clyde.can_be_eaten()
@@ -128,7 +141,7 @@ class Jeu:
         if self.game_started:
             # affichage du labyrinthe
             self.L.affiche()
-            
+
             # affihage des fantomes
             self.clyde.affiche()
             self.blinky.affiche()
@@ -157,15 +170,15 @@ class Jeu:
                 self.pac_man_ecrant_titre_x = -8
 
             if self.pac_man_bouche_compteur < 20 // 2:
-                pyxel.blt(8*self.pac_man_ecrant_titre_x+40, 8,
+                pyxel.blt(8 * self.pac_man_ecrant_titre_x + 40, 8,
                           0, 0, 0, 8, 8, 0)  # Bouche fermée
             else:
-                pyxel.blt(8*self.pac_man_ecrant_titre_x+40,
+                pyxel.blt(8 * self.pac_man_ecrant_titre_x + 40,
                           8, 0, 8, 0, 8, 8, 0)
 
             # fantomes 3
 
-            pyxel.blt(8*self.pac_man_ecrant_titre_x, 8, 0, 0, 8, 32, 8, 0)
+            pyxel.blt(8 * self.pac_man_ecrant_titre_x, 8, 0, 0, 8, 32, 8, 0)
 
 
 laby = [
