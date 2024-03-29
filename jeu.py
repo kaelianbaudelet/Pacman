@@ -52,6 +52,7 @@ class Jeu:
 
         self.pac_man_bouche_compteur = 0
         self.pac_man_ecrant_titre_x = -10
+        self.dev_mode = False
 
         # score
         self.score = 0
@@ -75,6 +76,30 @@ class Jeu:
         pyxel.run(self.update, self.draw)
 
     def update(self):
+
+        if pyxel.btnp(pyxel.KEY_F9):
+            self.dev_mode = not self.dev_mode
+            # reinitialisation de la vitesse des fantomes
+            self.clyde.speed = 14
+            self.blinky.speed = 13
+            self.pinky.speed = 15
+            self.inky.speed = 14
+
+        if self.dev_mode:
+            # Freeze les fantomes
+            if pyxel.btnp(pyxel.KEY_F1):
+                # arreter les fantomes
+                self.clyde.speed = inf
+                self.blinky.speed = inf
+                self.pinky.speed = inf
+                self.inky.speed = inf
+
+            if pyxel.btnp(pyxel.KEY_F2):
+                # donner des vies
+                self.vie += 1
+
+                
+
         if self.game_started:
 
             if pyxel.btn(pyxel.KEY_K):
@@ -161,7 +186,6 @@ class Jeu:
 
             if True in liste_mort:
                 self.vie -= 1
-                print('mort pacman')
 
                 # Retéléportation des fantomes
                 self.clyde = Clyde(self.L, self.G, speed=14)
@@ -206,6 +230,7 @@ class Jeu:
 
         pyxel.cls(0)
 
+
         if self.game_started:
             # affichage du labyrinthe
             self.L.affiche()
@@ -248,6 +273,11 @@ class Jeu:
             # fantomes 3
 
             pyxel.blt(8 * self.pac_man_ecrant_titre_x, 8, 0, 0, 8, 32, 8, 0)
+
+        if self.dev_mode:
+            pyxel.text(4, 4, "DEV MODE", 2)
+            # Informations debug
+
 
 
 laby = [
