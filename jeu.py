@@ -69,7 +69,8 @@ class Jeu:
 
         
 
-        # TODO : faire les musiques
+        # lancement de la musique
+        pyxel.playm(0, loop=True)
 
         # Lancement du jeu
 
