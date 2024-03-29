@@ -246,7 +246,7 @@ class Jeu:
 
             # affichage du score et des vies
             pyxel.text(4, 252, "SCORE: " + str(self.score), 7)
-            pyxel.text(4, 262, "HI-SCORE: " + str(self.score), 7)
+            pyxel.text(4, 262, "HI-SCORE: " + str(self.highscore), 7)
             pyxel.text(130, 252, "1UP", 7)
             pyxel.text(180, 252, "CREDITS: 3", 7)
 
