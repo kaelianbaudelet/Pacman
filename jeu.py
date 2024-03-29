@@ -10,13 +10,15 @@ class Jeu:
 
     def __init__(self, laby):
 
-        pyxel.init(224, 264, title="Pac-man", fps=60)
+        pyxel.init(224, 272, title="Pac-man", fps=60)
         pyxel.load("res.pyxres")
-
+        
         # création du labyrinthe
-        self.L = Lab(laby)
-        # et du graphe
-        self.G = Graph(laby)
+        self.laby_initial = laby[:]
+
+        # Création du labyrinthe
+        self.L = Lab(list(self.laby_initial))
+        self.G = Graph(list(self.laby_initial))
 
         # creation de Pac Man
         self.pac_man = Pac_man(self.L)
@@ -29,7 +31,7 @@ class Jeu:
 
         self.powertime = False
         self.game_started = False
-        self.depart_fantomes = 1
+        self.depart_fantomes = 0
 
         self.pac_man_bouche_compteur = 0
         self.pac_man_ecrant_titre_x = -10
@@ -42,22 +44,56 @@ class Jeu:
 
     def update(self):
         if self.game_started:
+
+            if pyxel.btn(pyxel.KEY_K):
+                self.L.total_pagomme = 0
+
+
+            # PASSAGE NIVEAU SUIVANT
+            if self.L.total_pagomme <= 0:
+                # recréation du labyrinthe avec les gommes
+                self.L = Lab(list(self.laby_initial))
+
+                # Retéléportation des fantomes
+                print('Niveau suivant')
+
+                self.clyde = Clyde(self.L, self.G, speed=14)
+                self.blinky = Blinky(self.L, self.G, speed=14)
+                self.pinky = Pinky(self.L, self.G, speed=14)
+                self.inky = Inky(self.L, self.G, speed=14)
+
+                self.depart_fantomes = 0
+
+
+
+
+
+
+
             # deplacement des fantomes
 
             # incrementation du compteur de depart des fantomes toute les 60 frames, toutes les 60 frames un fantome part
 
-            if pyxel.frame_count % 300 == 0:
-                print(self.depart_fantomes)
+            if pyxel.frame_count % 300 == 0 and self.depart_fantomes < 5:
                 self.depart_fantomes += 1
 
             if self.depart_fantomes >= 1:
-                self.clyde.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+                self.clyde.arreter_animation_attente()
+                
             if self.depart_fantomes >= 2:
-                self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+                self.pinky.arreter_animation_attente()
+                
             if self.depart_fantomes >= 3:
-                self.pinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+                self.blinky.arreter_animation_attente()
+                
             if self.depart_fantomes >= 4:
-                self.inky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+                self.inky.arreter_animation_attente()
+
+            self.inky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+            self.blinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+            self.pinky.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+            self.clyde.deplacer(self.pac_man.get_x(), self.pac_man.get_y())
+                
             
             # deplacement de pac-man
             self.pac_man.deplacer()
@@ -103,7 +139,13 @@ class Jeu:
             self.pac_man.afficher()
 
             # affichage du score
-            pyxel.text(8, 250, "SCORE: " + str(self.score), 7)
+            pyxel.text(4, 252, "SCORE: " + str(self.score), 7)
+            pyxel.text(4, 262, "HI-SCORE: " + str(self.score), 7)
+            pyxel.text(130, 252, "1UP", 7)
+            pyxel.text(180, 252, "CREDITS: 3", 7)
+            pyxel.blt(98, 251, 0, 8, 0, 8, 8, 0)
+            pyxel.blt(108, 251, 0, 8, 0, 8, 8, 0)
+            pyxel.blt(118, 251, 0, 8, 0, 8, 8, 0)
         else:
             # Bouton de démarrage du jeu
             pyxel.rect(80, 120, 64, 16, 7)
@@ -151,11 +193,11 @@ laby = [
         0, 1, 1, 1, 1, 1, 2, 1, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 1, 2, 1, 1, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 1, 1, 2, 1, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 1, 2, 1, 1, 0, 1, 1, 0, 0, 0,
-        0, 1, 1, 0, 1, 1, 2, 1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 2, 1, 1, 0, 1, 1, 1, 1, 1,
+        1, 1, 1, 0, 1, 1, 2, 1, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 2, 1, 1, 0, 1, 0, 0, 0, 0,
         0, 0, 1, 0, 1, 1, 2, 1, 1, 1, 1, 1, 1],
-    [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 0,
+    [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 4, 0, 0, 0, 0,
         0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
     [1, 1, 1, 1, 1, 1, 2, 1, 1, 0, 1, 0, 0, 0, 0,
         0, 0, 1, 0, 1, 1, 2, 1, 1, 1, 1, 1, 1],
@@ -190,4 +232,4 @@ laby = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
 
-Jeu(laby)
+Jeu(list(laby))
