@@ -23,7 +23,7 @@ L'objectif de Pacman est de naviguer à travers un labyrinthe en mangeant toutes
 
 1. **Cloner le dépôt** avec **git** ou **télécharger le fichier**
 2. Installer **les dépendances requises** : `pip install -r requirements.txt`
-3. **Lancer** le jeu : `python main.py`
+3. **Lancer** le jeu : `python jeu.py`
 
 ## Contrôles
 
