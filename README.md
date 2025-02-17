@@ -27,7 +27,7 @@ L'objectif de Pacman est de naviguer à travers un labyrinthe en mangeant toutes
 
 ## Contrôles
 
-- Flèches directionnelles 🡸, 🡺, 🡹, 🡻 (pour déplacer Pacman)
+- Flèches directionnelles (pour déplacer Pacman)
 
 ## Licence
 
